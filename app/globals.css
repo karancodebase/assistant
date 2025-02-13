@@ -19,3 +19,15 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;  /* very thin */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(206, 207, 210, 0.641); 
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;  /* invisible track */
+}
