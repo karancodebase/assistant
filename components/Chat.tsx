@@ -82,7 +82,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col w-full lg:max-w-[50vw] max-w-[100vw] mx-auto lg:h-[95vh] h-screen rounded bg-gray-800 p-4">
+    <div className="relative flex flex-col w-full lg:max-w-[50vw] max-w-[100vw] mx-auto lg:h-[95vh] h-screen rounded bg-gray-800 p-4">
       <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto space-y-2 p-4 custom-scrollbar"
@@ -131,7 +131,7 @@ export default function Chat() {
         </div>
       )}
 
-      <div className="flex items-center p-2 bg-gray-600 shadow-md rounded-lg">
+      <div className="absolute bottom-10 flex items-center p-2 bg-gray-600 shadow-md rounded-lg">
         <input
           type="text"
           className="flex-1 p-2 outline-none bg-gray-600 text-lg"
