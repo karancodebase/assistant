@@ -82,7 +82,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col w-full lg:max-w-[50vw] max-w-[98vw] mx-auto h-[95vh] rounded bg-gray-800 p-4">
+    <div className="flex flex-col w-full lg:max-w-[50vw] max-w-[100vw] mx-auto lg:h-[95vh] h-screen rounded bg-gray-800 p-4">
       <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto space-y-2 p-4 custom-scrollbar"
