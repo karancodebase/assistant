@@ -32,7 +32,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: data.error.message }, { status: data.error.code });
     }
 
-    const results = data.items?.map((item: any) => ({
+    interface Item{
+      title:string;
+      link: string;
+      snippet: string;
+    }
+
+    const results = data.items?.map((item: Item) => ({
       title: item.title,
       link: item.link,
       snippet: item.snippet,

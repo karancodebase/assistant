@@ -40,10 +40,10 @@ export async function POST(req: NextRequest) {
     console.log("📢 OpenAI Response:", response);
 
     return NextResponse.json({ reply: response.choices[0].message.content });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Internal Server Error:", error);
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { error: error instanceof Error ? error.message : "Internal Server Error" },
       { status: 500 }
     );
   }
