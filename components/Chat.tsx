@@ -33,7 +33,7 @@ export default function Chat() {
     if (!input.trim()) return;
 
     const userMessage: Message = { role: "user", content: input };
-    setMessages([...messages, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
 
@@ -63,29 +63,87 @@ export default function Chat() {
           body: JSON.stringify({ message: input }),
         });
 
-        const data = await res.json();
+        if (!res.ok) {
+          throw new Error("Failed to get response");
+        }
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder();
+        let aiMessage = "";
+
+        setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+        if (reader) {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            aiMessage += decoder.decode(value, { stream: true });
+
+            setMessages((prev) =>
+              prev.map((msg, index) =>
+                index === prev.length - 1 && msg.role === "assistant"
+                  ? { ...msg, content: aiMessage }
+                  : msg
+              )
+            );
+          }
+        }
+        
+        // if (!res.ok) {
+        //   const errorData = await res.json();
+        //   throw new Error(errorData.error || "Unknown error");
+        // }
+
+        // const data = await res.json();
+        // const aiMessage: Message = { role: "assistant", content: data.reply };
+
+        // setMessages((prev) => [...prev, aiMessage]);
+        // setResponse(data.reply);
+
+        // const data = await res.json();
         // console.log("Gemini API Response:", data);
 
-        if (data.reply) {
-          const botMessage: Message = {
-            role: "assistant",
-            content: data.reply,
-          };
-          setMessages((prev) => [...prev, botMessage]);
-        }
+        // if (!data.reply) {
+        //   setResponse("Server is down, please try again later.");
+        //   setLoading(false);
+        //   return;
+        // }
+
+        // const reader = res.body.getReader();
+        // const decoder = new TextDecoder();
+        // let aiMessage = "";
+
+        // while (true) {
+        //   const { value, done } = await reader.read();
+        //   if (done) break;
+
+        //   fullResponse += decoder.decode(value);
+        //   setResponse(fullResponse); // Update UI dynamically
+        // }
+
+        // setLoading(false);
+
+        // if (data.reply) {
+        //   const botMessage: Message = {
+        //     role: "assistant",
+        //     content: data.reply,
+        //   };
+        //   setMessages((prev) => [...prev, botMessage]);
+        // }
       }
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error fetching AI response:", error);
+      // console.error("Error sending message:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col w-full lg:max-w-[50vw] max-w-[100vw] mx-auto lg:h-[95vh] h-screen rounded bg-gray-800 p-4">
+    <div className="flex flex-col w-full lg:max-w-[50vw] max-w-[100vw] mx-auto h-screen rounded bg-gray-800 p-4">
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto space-y-2 p-4 custom-scrollbar"
+        className="flex-1 overflow-y-auto space-y-2 p-4 mt-12 custom-scrollbar"
       >
         {messages.map((msg, index) => (
           <motion.div
@@ -99,14 +157,17 @@ export default function Chat() {
             <span
               className={`px-3 py-1 rounded-md inline-block ${
                 msg.role === "user"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
+                  ? "bg-gray-500 text-white"
+                  : ""
               }`}
             >
               <ReactMarkdown>{msg.content}</ReactMarkdown>
             </span>
           </motion.div>
         ))}
+        {loading && (
+          <p className="text-gray-300 self-start">Aeris is thinking... 🤖</p>
+        )}
       </div>
 
       {/* Search Results */}
@@ -131,14 +192,14 @@ export default function Chat() {
         </div>
       )}
 
-      <div className="flex items-center p-2 bg-gray-600 shadow-md rounded-lg">
+      <div className="mb-12 flex items-center p-2 bg-gray-600 shadow-md rounded-lg">
         <input
           type="text"
-          className="flex-1 p-2 outline-none bg-gray-600 text-lg"
+          className="flex-1 p-2 outline-none bg-gray-600 text-white text-lg"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder="Google search..."
+          placeholder="Ask Aeris something..."
         />
         <button
           className="p-2 text-gray-100 hover:text-gray-400 duration-200"

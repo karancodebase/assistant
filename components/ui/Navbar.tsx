@@ -25,13 +25,13 @@ export default function Navbar() {
     
       <div className="fixed top-0 left-0 w-full  backdrop-blur-3xl z-50">
         <div className="mx-auto px-4 lg:px-[29rem]">
-          <div className="flex justify-between bg-gray-900 mt-1 rounded-full px-4 gap-10 items-center h-14">
+          <div className="flex justify-between bg-gray-900 mt-1 rounded-full px-4 gap-10 items-center h-10">
             <div className="flex justify-center items-center gap-2">
               <Image
                 src="/globe.svg"
                 alt="name"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
                 className="rounded-full"
               />
               <h1 className="font-semibold text-gray-50">Aeris</h1>
