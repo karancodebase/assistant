@@ -244,8 +244,8 @@ export default function Chat() {
         />
         <button
           className="p-2  hover:text-gray-400 duration-200"
-          onClick={() => sendMessage("Your message here")}
-          disabled={loading}
+          onClick={() => sendMessage(input)} // Send the current input value
+        disabled={loading || !input} // Disable if loading or no message
         >
           {loading ? "..." : <Send size={28} />}
         </button>
