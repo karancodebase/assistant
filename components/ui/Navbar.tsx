@@ -41,9 +41,9 @@ export default function Navbar() {
   }, [showAlert]);
 
   return (
-    <div className="fixed top-0 left-0 w-full backdrop-blur-3xl z-50">
-      <div className="mx-auto px-4 lg:px-[29rem]">
-        <div className="flex justify-between mt-1 rounded-full border border-zinc-500 dark:border-gray-600 bg-transparent px-3 py-1 text-base shadow-sm transition-colors backdrop-blur-md backdrop-brightness-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-400 dark:focus-visible:ring-gray-500">
+    <div className="">
+      <div className="">
+        <div className="z-50 backdrop-blur-3xl w-[90vw] lg:w-[40vw] px-4 py-2 mt-4 flex flex-row justify-between items-center border border-neutral-600 hover:border-neutral-400 rounded-xl hover:rounded-none duration-300">
           <div className="flex items-center gap-2">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
