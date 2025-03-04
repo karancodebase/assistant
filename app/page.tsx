@@ -11,8 +11,6 @@ interface Message {
   role: string;
 }
 
-
-
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
